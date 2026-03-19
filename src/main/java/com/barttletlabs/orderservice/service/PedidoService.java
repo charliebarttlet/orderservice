@@ -20,6 +20,11 @@ public class PedidoService {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    /**
+     * Servicio responsable de iniciar la Saga de compras.
+     * Aplica el patrón Coreografía: guarda el estado localmente y emite un evento
+     * asíncrono a RabbitMQ para que otros microservicios actúen en consecuencia.
+     */
     public Pedido crearPedido(Pedido pedido) {
         pedido.setEstado("PENDIENTE");
         Pedido pedidoGuardado = pedidoRepository.save(pedido);

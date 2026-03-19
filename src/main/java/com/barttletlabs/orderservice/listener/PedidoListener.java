@@ -32,7 +32,11 @@ public class PedidoListener {
         }
     }
 
-    // Listener Rechazados
+    /**
+     * Escucha el evento de pago rechazado.
+     * Ejecuta la TRANSACCIÓN DE COMPENSACIÓN de la Saga: revierte el estado
+     * del pedido a CANCELADO ya que el microservicio de pagos reportó un fallo.
+     */
     @RabbitListener(queues = RabbitMQConfig.QUEUE_RECHAZADOS)
     public void handlePagoRechazado(PagoEvent pago) {
         Optional<Pedido> pedidoOpt = pedidoRepository.findById(pago.getPedidoId());
